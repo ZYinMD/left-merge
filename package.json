@@ -1,0 +1,27 @@
+{
+	"name": "left-merge",
+	"version": "1.0.0",
+	"description": "",
+	"dependencies": {},
+	"devDependencies": {
+		"typescript": "*",
+		"@typescript-eslint/eslint-plugin": "*",
+		"@typescript-eslint/parser": "*",
+		"eslint": "*",
+		"eslint-config-prettier": "",
+		"eslint-plugin-jest": "*",
+		"prettier": "*"
+	},
+	"scripts": {},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ZYinMD/left-merge.git"
+	},
+	"keywords": [],
+	"author": "ZYinMD",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ZYinMD/left-merge/issues"
+	},
+	"homepage": "https://github.com/ZYinMD/left-merge#readme"
+}
