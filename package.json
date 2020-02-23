@@ -1,16 +1,17 @@
 {
 	"name": "left-merge",
 	"version": "1.0.0",
-	"description": "",
+	"description": "Recursively compare object A and B, merge B into A, but discard fields not pre-existed on A",
 	"dependencies": {},
 	"devDependencies": {
-		"typescript": "*",
+		"@types/node": "*",
 		"@typescript-eslint/eslint-plugin": "*",
 		"@typescript-eslint/parser": "*",
 		"eslint": "*",
 		"eslint-config-prettier": "",
 		"eslint-plugin-jest": "*",
-		"prettier": "*"
+		"prettier": "*",
+		"typescript": "*"
 	},
 	"scripts": {},
 	"repository": {
