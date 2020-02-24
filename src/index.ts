@@ -75,7 +75,7 @@ function warn(type: Warnings, keyName?: string) {
 		case 'not_plain':
 			if (keyName) message += `the field "${keyName}"`;
 			else message += `your left argument`;
-			message += `  isn't a plain object, inherited and innumerable properties will be disgarded`;
+			message += ` isn't a plain object, inherited and innumerable properties will be discarded (this limitation only applys to the left)`;
 			break;
 		case 'not_same_type':
 			if (keyName)
