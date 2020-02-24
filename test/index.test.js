@@ -208,5 +208,56 @@ describe('test properties from constructor and methods', () => {
 	});
 });
 
+describe(`test non-primitive non-plain objects as properties`, () => {
+	const left = {
+		1: new Date(54321),
+		2: new Set([...'abc']),
+		3: {
+			1: new Map().set(true, false),
+			2: new Map().set(true, false),
+			3: new Map().set(true, false),
+			4: undefined,
+			5: null,
+		},
+	};
+	const right = {
+		1: new Date(12345),
+		2: new Set([...'xyz']),
+		3: {
+			1: new Map().set(false, true),
+			2: undefined,
+			3: null,
+			4: new Map().set(false, true),
+			5: new Map().set(false, true),
+		},
+	};
+	test(`normally`, () => {
+		expect(leftMerge(left, right)).toEqual({
+			1: new Date(12345),
+			2: new Set([...'xyz']),
+			3: {
+				1: new Map().set(false, true),
+				2: new Map().set(true, false),
+				3: null,
+				4: new Map().set(false, true),
+				5: null,
+			},
+		});
+	});
+	test(`on root`, () => {
+		const obj = new Date(54321);
+		expect(() => {
+			leftMerge(obj, new Date(12345));
+		}).toThrow(`Your left argument isn't object-like.`);
+		expect(leftMerge(obj, null)).toBe(null);
+		expect(() => {
+			leftMerge(obj, undefined);
+		}).toThrow(`Your left argument isn't object-like.`);
+		expect(leftMerge(null, obj)).toEqual(null);
+		expect(() => {
+			leftMerge(undefined, obj);
+		}).toThrow(`Your right argument isn't object-like.`);
+	});
+});
 //TODO:
 // a field is not an object (date, set, etc), test both left and right

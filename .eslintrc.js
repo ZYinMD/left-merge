@@ -11,8 +11,6 @@ module.exports = {
 		browser: true,
 		node: true,
 		jest: true,
-	},
-	parserOptions: {
 		es2020: true,
 	},
 	rules: {

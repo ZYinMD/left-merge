@@ -4,18 +4,21 @@ function leftMerge(left: Record<string, any>, right: Record<string, any>, _keyNa
 		warn('right_is_null', _keyName);
 		return null;
 	}
-	if (left === undefined) {
-		warn('left_is_undefined', _keyName);
-		return { ...right };
-	}
 	if (left === null) {
 		warn('left_is_null', _keyName);
 		return null;
 	}
+	if (left === undefined) {
+		if (!isObject(right)) throw new Error(`Your right argument isn't object-like.`);
+		warn('left_is_undefined', _keyName);
+		return { ...right };
+	}
 	if (right === undefined) {
+		if (!isObject(left)) throw new Error(`Your left argument isn't object-like.`);
 		warn('right_is_undefined', _keyName);
 		return { ...left };
 	}
+	if (!isObject(left)) throw new Error(`Your left argument isn't object-like.`);
 	if (!isPlainObject(left)) warn('not_plain', _keyName);
 	const result = { ...left };
 	if (getType(left) !== getType(right)) {
@@ -92,14 +95,13 @@ function warn(type: Warnings, keyName?: string) {
 			if (keyName) message += `the field "${keyName}" is null on left`;
 			else message += `Your left argument is null`;
 			message +=
-				", which will NOT be overwritten by value on right. If it's not what you want, use `undefined` on left.";
+				", which will NOT be overwritten by value on right. If it's not what you want, use `undefined` on left, or better yet, use empty string, empty array, empty object, etc.";
 			break;
 		case 'right_is_undefined':
 			if (keyName) message += `the field "${keyName}" on right is \`undefined\``;
 			else message += 'Your right argument is `undefined`';
 			message += `, which will NOT be used to overwrite left. If you want to overwrite left, use null on right.`;
 			break;
-
 		case 'left_is_undefined':
 			if (keyName) message += `the field "${keyName}" on left is \`undefined\``;
 			else message += 'Your left argument is `undefind`';
