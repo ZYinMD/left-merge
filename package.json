@@ -2,18 +2,24 @@
 	"name": "left-merge",
 	"version": "1.0.0",
 	"description": "Recursively compare object A and B, merge B into A, but discard fields not pre-existed on A",
+	"scripts": {
+		"build": "tsc",
+		"test": "jest",
+		"pretest": "tsc"
+	},
 	"dependencies": {},
 	"devDependencies": {
+		"@types/jest": "*",
 		"@types/node": "*",
 		"@typescript-eslint/eslint-plugin": "*",
 		"@typescript-eslint/parser": "*",
+		"jest": "*",
 		"eslint": "*",
 		"eslint-config-prettier": "",
 		"eslint-plugin-jest": "*",
 		"prettier": "*",
 		"typescript": "*"
 	},
-	"scripts": {},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/ZYinMD/left-merge.git"
