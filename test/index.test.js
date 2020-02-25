@@ -13,17 +13,8 @@ const template = {
 	},
 };
 
-it('returns left if right is not the same type', () => {
-	const customization = 'foo';
-	expect(leftMerge(template, customization)).toEqual(template);
-});
-
-it('returns {} if left is {}', () => {
-	expect(leftMerge({}, template)).toEqual({});
-});
-
-it('overwrites left with right when property matches, and disregards properties not pre existed on left', () => {
-	const customization = {
+it('overwrites left with right when property matches, and discards properties not pre existed on left', () => {
+	const modification = {
 		gender: 'female',
 		color: ['orange'],
 		stats: {
@@ -34,7 +25,7 @@ it('overwrites left with right when property matches, and disregards properties 
 			},
 		},
 	};
-	expect(leftMerge(template, customization)).toEqual({
+	expect(leftMerge(template, modification)).toEqual({
 		species: 'cat',
 		color: ['orange'],
 		stats: {
@@ -48,51 +39,92 @@ it('overwrites left with right when property matches, and disregards properties 
 	});
 });
 
+it(`returns right if left is undefined`, () => {
+	expect(leftMerge(undefined, template)).toEqual(template);
+	expect(leftMerge(undefined, 'foo')).toBe('foo');
+	expect(leftMerge(undefined, false)).toBe(false);
+	expect(leftMerge(undefined, {})).toEqual({});
+	expect(leftMerge(undefined, new Set())).toEqual(new Set());
+});
+
+it(`returns right if left is null`, () => {
+	expect(leftMerge(null, template)).toEqual(template);
+	expect(leftMerge(null, 'foo')).toBe('foo');
+	expect(leftMerge(null, false)).toBe(false);
+	expect(leftMerge(null, {})).toEqual({});
+	expect(leftMerge(null, new Set())).toEqual(new Set());
+});
+
+it(`returns left if right is undefined`, () => {
+	expect(leftMerge(template, undefined)).toEqual(template);
+	expect(leftMerge('foo', undefined)).toBe('foo');
+	expect(leftMerge(false, undefined)).toBe(false);
+	expect(leftMerge({}, undefined)).toEqual({});
+	expect(leftMerge(new Set(), undefined)).toEqual(new Set());
+});
+
+it(`returns left if right is null`, () => {
+	expect(leftMerge(template, null)).toEqual(template);
+	expect(leftMerge('foo', null)).toBe('foo');
+	expect(leftMerge(false, null)).toBe(false);
+	expect(leftMerge({}, null)).toEqual({});
+	expect(leftMerge(new Set(), null)).toEqual(new Set());
+});
+
+it('returns {} if left is {}', () => {
+	expect(leftMerge({}, template)).toEqual({});
+	expect(leftMerge({}, 'foo')).toEqual({});
+	expect(leftMerge({}, false)).toEqual({});
+	expect(leftMerge({}, ['1'])).toEqual({});
+	expect(leftMerge({}, new Date())).toEqual({});
+});
+
+it('returns left if right is not the same type', () => {
+	expect(leftMerge(template, 'foo')).toEqual(template);
+	expect(leftMerge(template, {})).toEqual(template);
+	expect(leftMerge(template, false)).toEqual(template);
+	expect(leftMerge(template, ['1'])).toEqual(template);
+	expect(leftMerge(template, new Date())).toEqual(template);
+});
+
 it(`discards fields on right if of different type than left`, () => {
-	const customization = {
+	const modification = {
 		color: 'yellow',
 		stats: {
 			strength: 'high',
 			aura: ['AC', 'sleepy'],
 		},
 	};
-	expect(leftMerge(template, customization)).toEqual(template);
+	expect(leftMerge(template, modification)).toEqual(template);
 });
 
-it(`returns right if left is undefined`, () => {
-	expect(leftMerge(undefined, template)).toEqual(template);
-});
-
-it(`returns left if right is undefined`, () => {
-	expect(leftMerge(template, undefined)).toEqual(template);
-});
-
-test(`if a field is undefined on right, use left`, () => {
-	const customization = {
-		species: 'tiger',
+test(`if a field is undefined or null on right, use left`, () => {
+	const modification = {
+		species: null,
 		color: undefined,
 		stats: {
-			strength: undefined,
+			strength: null,
 			aura: undefined,
 		},
 	};
-	expect(leftMerge(template, customization)).toEqual({ ...template, species: 'tiger' });
+	expect(leftMerge(template, modification)).toEqual(template);
 });
 
-test(`if a field is undefined on left, use right`, () => {
-	const left = {
-		species: undefined,
-		color: undefined,
+test(`if a field is '' or [] on right, will overwrite lest, but {} won't`, () => {
+	const modification = {
+		species: '',
+		color: [],
 		stats: {
-			strength: undefined,
-			aura: undefined,
+			speed: 0,
+			aura: {},
 		},
 	};
-	expect(leftMerge(left, template)).toEqual({
-		species: 'cat',
-		color: ['yellow', 'black'],
+	expect(leftMerge(template, modification)).toEqual({
+		species: '',
+		color: [],
 		stats: {
 			strength: 5,
+			speed: 0,
 			aura: {
 				sleepy: false,
 				excitement: false,
@@ -101,54 +133,27 @@ test(`if a field is undefined on left, use right`, () => {
 	});
 });
 
-it(`returns null if right is null`, () => {
-	expect(leftMerge(template, null)).toBe(null);
-});
-
-test(`if a field is null on right, overwrite left with null`, () => {
-	const customization = {
-		species: 'tiger',
-		color: null,
-		stats: {
-			speed: null,
-			aura: null,
-		},
-	};
-	expect(leftMerge(template, customization)).toEqual({
-		species: 'tiger',
-		color: null,
-		stats: {
-			strength: 5,
-			speed: null,
-			aura: null,
-		},
-	});
-});
-
-test(`if a field is unll on left, don't overwrite`, () => {
+test(`if a field is undefined or null on left, use right`, () => {
 	const left = {
-		species: null,
-		color: null,
+		species: 'ghost',
+		color: undefined,
 		stats: {
 			strength: null,
+			speed: undefined,
 			aura: null,
 		},
 	};
-	expect(leftMerge(left, template)).toEqual(left);
-});
-
-test(`if left is null, return null`, () => {
-	expect(leftMerge(null, template)).toBe(null);
+	expect(leftMerge(left, template)).toEqual(template);
 });
 
 describe('test inherited properties', () => {
 	const crookshank = Object.create(template);
 	crookshank.color = ['orange'];
 	test(`inherited properties on left will be discarded`, () => {
-		const customization = {
+		const modification = {
 			species: 'wizard',
 		};
-		expect(leftMerge(crookshank, customization)).toEqual({
+		expect(leftMerge(crookshank, modification)).toEqual({
 			color: ['orange'],
 		});
 	});
@@ -183,8 +188,8 @@ describe('test properties from constructor and methods', () => {
 	const garfield = new Cat('Garfield');
 	Object.assign(garfield, { stats: { aura: { sleepy: true } } });
 	test(`on left, properties from constructor is honored, but methods are discarded`, () => {
-		const customization = { color: ['black', 'yellow'] };
-		expect(leftMerge(garfield, customization)).toEqual({
+		const modification = { color: ['black', 'yellow'] };
+		expect(leftMerge(garfield, modification)).toEqual({
 			species: 'cat',
 			name: 'Garfield',
 			stats: {
@@ -238,26 +243,14 @@ describe(`test non-primitive non-plain objects as properties`, () => {
 			3: {
 				1: new Map().set(false, true),
 				2: new Map().set(true, false),
-				3: null,
+				3: new Map().set(true, false),
 				4: new Map().set(false, true),
-				5: null,
+				5: new Map().set(false, true),
 			},
 		});
 	});
 	test(`on root`, () => {
 		const obj = new Date(54321);
-		expect(() => {
-			leftMerge(obj, new Date(12345));
-		}).toThrow(`Your left argument isn't object-like.`);
-		expect(leftMerge(obj, null)).toBe(null);
-		expect(() => {
-			leftMerge(obj, undefined);
-		}).toThrow(`Your left argument isn't object-like.`);
-		expect(leftMerge(null, obj)).toEqual(null);
-		expect(() => {
-			leftMerge(undefined, obj);
-		}).toThrow(`Your right argument isn't object-like.`);
+		expect(leftMerge(obj, new Date(12345))).toEqual(new Date(12345));
 	});
 });
-//TODO:
-// a field is not an object (date, set, etc), test both left and right
