@@ -1,4 +1,4 @@
-const leftMerge = require('../dist/index.js');
+const leftMerge = require('../dist/index.js').default;
 
 const template = {
 	species: 'cat',

@@ -25,6 +25,7 @@
 		"pretest": "tsc"
 	},
 	"main": "dist",
+	"typings": "dist/index.d.ts",
 	"files": [
 		"dist",
 		"src",
@@ -36,10 +37,10 @@
 		"@types/node": "latest",
 		"@typescript-eslint/eslint-plugin": "latest",
 		"@typescript-eslint/parser": "latest",
-		"jest": "latest",
 		"eslint": "latest",
 		"eslint-config-prettier": "",
 		"eslint-plugin-jest": "latest",
+		"jest": "latest",
 		"prettier": "latest",
 		"typescript": "latest"
 	}
