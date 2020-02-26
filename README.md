@@ -49,6 +49,12 @@ const newUserSettings = leftMerge(defaultSettingsV2, userLocalStorage); /* ->
 } */
 ```
 
+### if you're using commonjs `require`:
+
+```js
+const leftMerge = require('left-merge').default;
+```
+
 ### Immutability:
 
 Objects and their nested children are never mutated, but may be shallow copied when no change is needed.
@@ -59,6 +65,6 @@ If a field is `null` or `undefined` on the left, it'll be overwritten by the cou
 
 The logs of this library will tell you more details when it happens.
 
-### typing conflicts:
+### type conflicts of left and right:
 
 Except for `null` and `undefind`, when a field is of different types on left and right, right will be discarded. The logs of this library will tell you more details when it happens.
