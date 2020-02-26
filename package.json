@@ -2,33 +2,45 @@
 	"name": "left-merge",
 	"version": "1.0.0",
 	"description": "Recursively compare object A and B, merge B into A, but discard fields not pre-existed on A",
+	"keywords": [
+		"merge",
+		"object",
+		"objects",
+		"localStorage",
+		"merge-left"
+	],
+	"author": "ZYinMD",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ZYinMD/left-merge.git"
+	},
+	"bugs": {
+		"url": "https://github.com/ZYinMD/left-merge/issues"
+	},
+	"homepage": "https://github.com/ZYinMD/left-merge#readme",
 	"scripts": {
 		"build": "tsc",
 		"test": "jest",
 		"pretest": "tsc"
 	},
+	"main": "dist",
+	"files": [
+		"dist",
+		"src",
+		"test"
+	],
 	"dependencies": {},
 	"devDependencies": {
-		"@types/jest": "*",
-		"@types/node": "*",
-		"@typescript-eslint/eslint-plugin": "*",
-		"@typescript-eslint/parser": "*",
-		"jest": "*",
-		"eslint": "*",
+		"@types/jest": "latest",
+		"@types/node": "latest",
+		"@typescript-eslint/eslint-plugin": "latest",
+		"@typescript-eslint/parser": "latest",
+		"jest": "latest",
+		"eslint": "latest",
 		"eslint-config-prettier": "",
-		"eslint-plugin-jest": "*",
-		"prettier": "*",
-		"typescript": "*"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/ZYinMD/left-merge.git"
-	},
-	"keywords": [],
-	"author": "ZYinMD",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/ZYinMD/left-merge/issues"
-	},
-	"homepage": "https://github.com/ZYinMD/left-merge#readme"
+		"eslint-plugin-jest": "latest",
+		"prettier": "latest",
+		"typescript": "latest"
+	}
 }
