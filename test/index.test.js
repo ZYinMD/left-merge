@@ -149,18 +149,27 @@ test(`if a field is undefined or null on left, use right`, () => {
 describe('test inherited properties', () => {
 	const crookshank = Object.create(template);
 	crookshank.color = ['orange'];
-	test(`inherited properties on left will be discarded`, () => {
-		const modification = {
-			species: 'wizard',
-		};
-		expect(leftMerge(crookshank, modification)).toEqual({
-			color: ['orange'],
-		});
+
+	test('left with inherited properties is returned as is when right is null or undefined', () => {
+		expect(leftMerge(crookshank, undefined)).toBe(crookshank);
+		expect(leftMerge(crookshank, null)).toBe(crookshank);
+	});
+
+	test(`inherited properties on left will become plain properties`, () => {
+		const modification = { species: 'tiger' };
+		const mergeResult = leftMerge(crookshank, modification);
+		expect(mergeResult.species).toBe('tiger');
+		expect(mergeResult.color).toEqual(crookshank.color);
+		expect(mergeResult.stats).toEqual(template.stats);
 	});
 
 	test(`same for nested objects`, () => {
-		const foo = { foo: crookshank };
-		expect(leftMerge(foo, foo)).toEqual({ foo: { color: ['orange'] } });
+		const left = { foo: crookshank };
+		const modification = { foo: { species: 'tiger' } };
+		const mergeResult = leftMerge(left, modification);
+		expect(mergeResult.foo.species).toBe('tiger');
+		expect(mergeResult.foo.color).toEqual(crookshank.color);
+		expect(mergeResult.foo.stats).toEqual(template.stats);
 	});
 
 	test(`inherited properties on right is honored`, () => {
@@ -172,6 +181,9 @@ describe('test inherited properties', () => {
 			species: 'cat',
 			color: ['orange'],
 		});
+	});
+	test(`so cool`, () => {
+		expect(leftMerge(crookshank, crookshank)).toEqual({ ...template, color: ['orange'] });
 	});
 });
 

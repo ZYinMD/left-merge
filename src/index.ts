@@ -18,12 +18,10 @@ export default function leftMerge(
 	if (!isObject(left)) return right;
 	if (!isPlainObject(left)) warn('not_plain', _keyName);
 
-	const result = { ...left };
-	for (const [key, leftValue] of Object.entries(left)) {
-		if (key in right) {
-			const rightValue = right[key];
-			result[key] = leftMerge(leftValue, rightValue, key);
-		}
+	const result = {} as typeof left;
+	for (const key in left) {
+		if (key in right) result[key] = leftMerge(left[key], right[key], key);
+		else result[key] = left[key];
 	}
 	return result;
 }
@@ -51,7 +49,7 @@ function warn(type: Warnings, keyName?: string) {
 		case 'not_plain':
 			if (keyName) message += `the field "${keyName}"`;
 			else message += `your left argument`;
-			message += ` isn't a plain object, inherited and innumerable properties will be discarded (this limitation only applys to the left)`;
+			message += ` isn't a plain object, inherited properties will become plain properties, innumerable properties will be lost`;
 			break;
 		case 'not_same_type':
 			if (keyName)
