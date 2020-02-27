@@ -1,6 +1,6 @@
 {
 	"name": "left-merge",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Recursively compare object A and B, merge B into A, but discard fields not pre-existed on A",
 	"keywords": [
 		"merge",
