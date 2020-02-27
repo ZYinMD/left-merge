@@ -1,8 +1,7 @@
-export default function leftMerge(
-	left: Record<string, any>,
-	right: Record<string, any>,
-	_keyName?: string,
-) {
+export default leftMerge;
+export { leftMerge };
+
+function leftMerge(left: Record<string, any>, right: Record<string, any>, _keyName?: string) {
 	if (right === null || right === undefined) {
 		warn('right_is_nullish', _keyName);
 		return left;
