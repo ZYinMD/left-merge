@@ -1,5 +1,5 @@
-export default leftMerge;
 export { leftMerge };
+export default leftMerge;
 
 function leftMerge(left: Record<string, any>, right: Record<string, any>, _keyName?: string) {
 	if (right === null || right === undefined) {
@@ -42,31 +42,37 @@ function getType(thing: any) {
 type Warnings = 'not_plain' | 'not_same_type' | 'right_is_nullish' | 'left_is_nullish';
 
 function warn(type: Warnings, keyName?: string) {
-	if (process?.env?.NODE_ENV === 'production') return;
-	let message = `(This warning won't show in production) leftMerge: `;
-	switch (type) {
-		case 'not_plain':
-			if (keyName) message += `the field "${keyName}"`;
-			else message += `your left argument`;
-			message += ` isn't a plain object, inherited properties will become plain properties, innumerable properties will be lost`;
-			break;
-		case 'not_same_type':
-			if (keyName)
-				message += `the field "${keyName}" is of different types on left and right, the value on right is discarded`;
-			else message += `Your left and right arguments are of different type. Right is discarded.`;
-			break;
-		case 'right_is_nullish':
-			if (keyName) message += `the field "${keyName}" on right is \`null\` or \`undefined\``;
-			else message += 'Your right argument is `null` or `undefined`';
-			message +=
-				" , which will NOT be used to overwrite left. If you want to overwrite left, use things like '' or [] or 'unset'.";
-			break;
-		case 'left_is_nullish':
-			if (keyName) message += `the field "${keyName}" on left is \`null\` or \`undefined\``;
-			else message += 'Your left argument is `null` or `undefined`';
-			message += `, which will be overwritten by the value on right. `;
-			break;
-		default:
+	try {
+		if (process?.env?.NODE_ENV !== 'development' && process?.env?.NODE_ENV !== 'test') return;
+		let message = `(This warning won't show in production) leftMerge: `;
+		switch (type) {
+			case 'not_plain':
+				if (keyName) message += `the field "${keyName}"`;
+				else message += `your left argument`;
+				message += ` isn't a plain object, inherited properties will become plain properties, innumerable properties will be lost`;
+				break;
+			case 'not_same_type':
+				if (keyName)
+					message += `the field "${keyName}" is of different types on left and right, the value on right is discarded.`;
+				else
+					message += `Your left and right arguments are of different type, so right is discarded.`;
+				message += ` You may want to do some tranformation first.`;
+				break;
+			case 'right_is_nullish':
+				if (keyName) message += `the field "${keyName}" on right is \`null\` or \`undefined\``;
+				else message += 'Your right argument is `null` or `undefined`';
+				message +=
+					" , which will NOT be used to overwrite left. If you want to overwrite left, use things like [] or '' or 'unset'.";
+				break;
+			case 'left_is_nullish':
+				if (keyName) message += `the field "${keyName}" on left is \`null\` or \`undefined\``;
+				else message += 'Your left argument is `null` or `undefined`';
+				message += `, which will be overwritten by the value on right. `;
+				break;
+			default:
+		}
+		console?.warn(message);
+	} catch (err) {
+		return;
 	}
-	console?.warn(message);
 }
