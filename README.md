@@ -11,7 +11,7 @@ One good use case could be updating localStorage in production sites.
 ### examples:
 
 ```js
-import leftMerge from 'left-merge';
+import { leftMerge } from 'left-merge';
 const template = {
   species: 'cat',
   color: ['yellow', 'black'],
@@ -49,12 +49,6 @@ const newUserSettings = leftMerge(defaultSettingsV2, userLocalStorage); /* ->
 } */
 ```
 
-### if you're using commonjs `require`:
-
-```js
-const leftMerge = require('left-merge').default;
-```
-
 ### Immutability:
 
 Objects and their nested children are never mutated, but may be shallow copied when no change is needed.
@@ -68,3 +62,9 @@ The logs of this library will tell you more details when it happens.
 ### type conflicts of left and right:
 
 Except for `null` and `undefind`, when a field is of different types on left and right, right will be discarded. The logs of this library will tell you more details when it happens.
+
+### if you're using commonjs `require`:
+
+```js
+const { leftMerge } = require('left-merge');
+```
