@@ -50,19 +50,19 @@ const newUserSettings = leftMerge(defaultSettingsV2, userLocalStorage); /* ->
 
 ### Immutability:
 
-Objects and their nested children are never mutated, but may be shallow copied when no change is needed.
+Arguments and their nested children are never mutated, but may be shallow copied when no change is needed.
 
 ### null and undefined:
 
 If a field is `null` or `undefined` on the left, it'll be overwritten by the counterpart on the right. If `null` or `undefined` is on the right, it won't overwrite left.
 
-(When this happens, you'll see more details in the verbose loggings in developemnt.)
+(When these happen, you'll see more detailed reports in the verbose loggings in developemnt.)
 
 ### type conflicts of left and right:
 
-Except for `null` and `undefind`, when a field is of different types on left and right, right will be discarded.
+Except for `null` and `undefind`, when a field is of different types on left and right, right will be ignored.
 
-(When this happens, you'll see more details in the verbose loggings in developemnt.)
+(When this happens, you'll see more detailed reports in the verbose loggings in developemnt.)
 
 ### if you're using commonjs `require`:
 
