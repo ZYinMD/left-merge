@@ -22,7 +22,7 @@ const modification = {
   stats: { speed: 25, canFly: true },
 };
 
-const result = leftMerge(template, modification); /* ->
+let result = leftMerge(template, modification); /* ->
 {
   species: 'tiger',
   color: ['yellow', 'black'],
@@ -33,15 +33,18 @@ const result = leftMerge(template, modification); /* ->
 ### Example use case with production site localStorage:
 
 ```js
-const userLocalStorage = {
+// user's local settings in localStorage:
+const userSettings = {
   language: 'French',
   itemsPerPage: 50,
 };
+// default settings for new users, which you recently evolved:
 const defaultSettingsV2 = {
   language: 'Enligsh',
   useDarkMode: false,
 };
-const newUserSettings = leftMerge(defaultSettingsV2, userLocalStorage); /* ->
+// on app start:
+let newUserSettings = leftMerge(defaultSettingsV2, userLocalStorage); /* ->
 {
   language: 'French',
   useDarkMode: false,
@@ -56,13 +59,13 @@ Arguments and their nested children are never mutated, but may be shallow copied
 
 If a field is `null` or `undefined` on the left, it'll be overwritten by the counterpart on the right. If `null` or `undefined` is on the right, it won't overwrite left.
 
-(When these happen, you'll see more detailed reports in the verbose loggings in developemnt.)
+(when these happen, you'll see more detailed reports in the verbose loggings in developemnt)
 
 ### type conflicts of left and right:
 
-Except for `null` and `undefind`, when a field is of different types on left and right, right will be ignored.
+Except for `null` and `undefind`, when a field has different types on left and right, right will be ignored.
 
-(When this happens, you'll see more detailed reports in the verbose loggings in developemnt.)
+(when this happens, you'll see more detailed reports in the verbose loggings in developemnt)
 
 ### if you're using commonjs `require`:
 
