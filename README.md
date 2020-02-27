@@ -33,7 +33,6 @@ const result = leftMerge(template, modification); /* ->
 ### Example use case with production site localStorage:
 
 ```js
-import leftMerge from 'left-merge';
 const userLocalStorage = {
   language: 'French',
   itemsPerPage: 50,
@@ -53,15 +52,17 @@ const newUserSettings = leftMerge(defaultSettingsV2, userLocalStorage); /* ->
 
 Objects and their nested children are never mutated, but may be shallow copied when no change is needed.
 
-### `null` and `undefined`:
+### null and undefined:
 
-If a field is `null` or `undefined` on the left, it'll be overwritten by the counterpart on the right. If `null` or `undefined` is on the right, it won't have any effect.
+If a field is `null` or `undefined` on the left, it'll be overwritten by the counterpart on the right. If `null` or `undefined` is on the right, it won't overwrite left.
 
-The logs of this library will tell you more details when it happens.
+(When this happens, you'll see more details in the verbose loggings in developemnt.)
 
 ### type conflicts of left and right:
 
-Except for `null` and `undefind`, when a field is of different types on left and right, right will be discarded. The logs of this library will tell you more details when it happens.
+Except for `null` and `undefind`, when a field is of different types on left and right, right will be discarded.
+
+(When this happens, you'll see more details in the verbose loggings in developemnt.)
 
 ### if you're using commonjs `require`:
 
