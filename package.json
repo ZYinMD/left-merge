@@ -22,7 +22,8 @@
 		"build": "tsc",
 		"test": "jest",
 		"pretest": "tsc",
-		"postversion": "npm publish"
+		"postversion": "npm publish",
+		"postpublish": "git push && git push --tags"
 	},
 	"main": "dist",
 	"typings": "dist/index.d.ts",
