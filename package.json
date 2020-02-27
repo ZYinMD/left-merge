@@ -18,7 +18,6 @@
 	"bugs": {
 		"url": "https://github.com/ZYinMD/left-merge/issues"
 	},
-	"homepage": "https://github.com/ZYinMD/left-merge#readme",
 	"scripts": {
 		"build": "tsc",
 		"test": "jest",
