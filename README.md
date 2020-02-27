@@ -38,13 +38,13 @@ const userSettings = {
   language: 'French',
   itemsPerPage: 50,
 };
-// default settings for new users, which you recently evolved:
-const defaultSettingsV2 = {
+// default settings of the app, which you recently evolved:
+const defaultSettings = {
   language: 'Enligsh',
   useDarkMode: false,
 };
-// on app start:
-let newUserSettings = leftMerge(defaultSettingsV2, userLocalStorage); /* ->
+// on app start, update localStorage with:
+let updatedUserSettings = leftMerge(defaultSettings, userLocalStorage); /* ->
 {
   language: 'French',
   useDarkMode: false,
