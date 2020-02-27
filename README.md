@@ -44,7 +44,7 @@ const defaultSettings = {
   useDarkMode: false,
 };
 // on app start, update localStorage with:
-let updatedUserSettings = leftMerge(defaultSettings, userLocalStorage); /* ->
+let updatedUserSettings = leftMerge(defaultSettings, userSettings); /* ->
 {
   language: 'French',
   useDarkMode: false,
