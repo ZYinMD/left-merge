@@ -21,14 +21,14 @@
 	"scripts": {
 		"build": "tsc",
 		"test": "jest",
-		"pretest": "tsc"
+		"pretest": "tsc",
+		"postversion": "npm publish"
 	},
 	"main": "dist",
 	"typings": "dist/index.d.ts",
 	"files": [
 		"dist",
-		"src",
-		"test"
+		"src"
 	],
 	"dependencies": {},
 	"devDependencies": {
