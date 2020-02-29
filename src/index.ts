@@ -16,6 +16,10 @@ function leftMerge(left: Record<string, any>, right: Record<string, any>, _keyNa
 	}
 	if (!isObject(left)) return right;
 	if (!isPlainObject(left)) warn('not_plain', _keyName);
+	else if (Object.entries(left).length === 0) {
+		warn('empty_object', _keyName);
+		return right;
+	}
 
 	const result = {} as typeof left;
 	for (const key in left) {
@@ -39,7 +43,12 @@ function getType(thing: any) {
 	return Object.prototype.toString.call(thing);
 }
 
-type Warnings = 'not_plain' | 'not_same_type' | 'right_is_nullish' | 'left_is_nullish';
+type Warnings =
+	| 'not_plain'
+	| 'not_same_type'
+	| 'right_is_nullish'
+	| 'left_is_nullish'
+	| 'empty_object';
 
 function warn(type: Warnings, keyName?: string) {
 	try {
@@ -68,6 +77,11 @@ function warn(type: Warnings, keyName?: string) {
 				if (keyName) message += `the field "${keyName}" on left is \`null\` or \`undefined\``;
 				else message += 'Your left argument is `null` or `undefined`';
 				message += `, which will be overwritten by the value on right. `;
+				break;
+			case 'empty_object':
+				if (keyName) message += `the field "${keyName}" on left is a plain empty object {}`;
+				else message += 'Your left argument is a plain empty object {}';
+				message += `, it'll be overwritten by the object on right, because you probably intended to use it as a dictionary`;
 				break;
 			default:
 		}

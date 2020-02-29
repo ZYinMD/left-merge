@@ -71,14 +71,6 @@ it(`returns left if right is null`, () => {
 	expect(leftMerge(new Set(), null)).toEqual(new Set());
 });
 
-it('returns {} if left is {}', () => {
-	expect(leftMerge({}, template)).toEqual({});
-	expect(leftMerge({}, 'foo')).toEqual({});
-	expect(leftMerge({}, false)).toEqual({});
-	expect(leftMerge({}, ['1'])).toEqual({});
-	expect(leftMerge({}, new Date())).toEqual({});
-});
-
 it('returns left if right is not the same type', () => {
 	expect(leftMerge(template, 'foo')).toEqual(template);
 	expect(leftMerge(template, {})).toEqual(template);
@@ -144,6 +136,30 @@ test(`if a field is undefined or null on left, use right`, () => {
 		},
 	};
 	expect(leftMerge(left, template)).toEqual(template);
+});
+
+describe('when left is presumably an empty dictionary', () => {
+	test('{} as left argument', () => {
+		expect(leftMerge({}, template)).toEqual(template);
+		expect(leftMerge({}, 'foo')).toEqual({});
+		expect(leftMerge({}, false)).toEqual({});
+		expect(leftMerge({}, ['1'])).toEqual({});
+		expect(leftMerge({}, new Date())).toEqual({});
+	});
+	test('{} as a field on left', () => {
+		const left = { a: 1, b: {} };
+		expect(leftMerge(left, { a: 1, b: template })).toEqual({ a: 1, b: template });
+		expect(leftMerge(left, { a: 1, b: 'foo' })).toEqual(left);
+		expect(leftMerge(left, { a: 1, b: false })).toEqual(left);
+		expect(leftMerge(left, { a: 1, b: ['1'] })).toEqual(left);
+		expect(leftMerge(left, { a: 1, b: new Date() })).toEqual(left);
+	});
+	test(`{} with inherited properties doesn't count as empty`, () => {
+		const foo = { foo: 1 };
+		expect(leftMerge(Object.create(foo), template)).toEqual(foo);
+		const bar = { bar: Object.create(foo) };
+		expect(leftMerge(bar, { bar: template })).toEqual({ bar: foo });
+	});
 });
 
 describe('test inherited properties', () => {
