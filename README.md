@@ -4,9 +4,9 @@
 let result = leftMerge(left, right);
 ```
 
-Recursively compare two object, merge `right` into `left`, but maitain the structure of `left`, ignoring redundent properties from `right`. Inspired by "left join" of SQL.
+Recursively compare two object, merge `right` into `left`, but maintain the structure of `left`, ignoring redundent properties from `right`. Inspired by "left join" of SQL.
 
-One good use case could be updating localStorage in production sites.
+One good use case could be updating user settings when you change the structure of default settings. One place it may happen is in localStorage of production sites.
 
 ### examples:
 
@@ -30,20 +30,20 @@ let result = leftMerge(template, modification); /* ->
 } */
 ```
 
-### Example use case with production site localStorage:
+### Example use case with user settings:
 
 ```js
-// user's local settings in localStorage:
+// user's settings, maybe stored in localStorage or back end:
 const userSettings = {
   language: 'French',
   itemsPerPage: 50,
 };
-// default settings of the app, which you recently evolved:
+// default settings of the app, and the structure recently evolved:
 const defaultSettings = {
   language: 'Enligsh',
   useDarkMode: false,
 };
-// on app start, update localStorage with:
+// on app start, update user settings with:
 let updatedUserSettings = leftMerge(defaultSettings, userSettings); /* ->
 {
   language: 'French',
