@@ -30,21 +30,21 @@ let result = leftMerge(template, modification); /* ->
 } */
 ```
 
-### Example use case with user settings:
+### Example use case with stored user preferences:
 
 ```js
-// user's settings, maybe stored in localStorage or back end:
-const userSettings = {
+// old user's preferences, maybe stored in localStorage or backend:
+const userPreferences = {
   language: 'French',
   itemsPerPage: 50,
 };
-// default settings of the app, and the structure recently evolved:
+// the new default settings of the app, where the structure recently evolved:
 const defaultSettings = {
   language: 'Enligsh',
   useDarkMode: false,
 };
-// on app start, update user settings with:
-let updatedUserSettings = leftMerge(defaultSettings, userSettings); /* ->
+// on app start, update user preference to the new structure:
+let updatedUserPreferences = leftMerge(defaultSettings, userPreferences); /* ->
 {
   language: 'French',
   useDarkMode: false,
